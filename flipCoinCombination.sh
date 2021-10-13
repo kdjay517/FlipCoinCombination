@@ -33,7 +33,10 @@ TTH=0
 declare -A singlet_dictionary;
 declare -A doublet_dictionary
 declare -A tripplet_dictionary
-declare -A percentage
+declare -A singlet_percentage
+declare -A doublet_percentage
+declare -A tripplet_percentage
+
 
 
 for ((i=1; i<=10; i++))
@@ -119,8 +122,10 @@ done
 echo "Heads percentage-" $(($H*10))
 echo "Tails percentage-" $(($T*10))
 echo "singlet output is" ${singlet_dictionary[@]}
-percentage[H]=$(($H*10))
-percentage[T]=$(($T*10))
+
+singlet_percentage[H]=$(($H*10))
+singlet_percentage[T]=$(($T*10))
+
 
 
 echo "HH percentage-" $(($HH*10))
@@ -129,10 +134,12 @@ echo "TH percentage-" $(($TH*10))
 echo "TT pecentage-" $(($TT*10))
 
 
-percentage[HH]=$(($HH*10))
-percentage[HT]=$(($HT*10))
-percentage[TH]=$(($TH*10))
-percentage[TT]=$(($TT*10))
+
+doublet_percentage[HH]=$(($HH*10))
+doublet_percentage[HT]=$(($HT*10))
+doublet_percentage[TH]=$(($TH*10))
+doublet_percentage[TT]=$(($TT*10))
+
 
 echo "doublet_dictionary:" ${doublet_dictionary[@]}
 
@@ -147,21 +154,33 @@ echo "TTT Percentage -"$(($TTT*10))
 
 
 
-percentage[HHH]=$(($HHH*10))
-percentage[HHT]=$(($HHT*10))
-percentage[HTH]=$(($HTH*10))
-percentage[HTT]=$(($HTT*10))
-percentage[THH]=$(($THH*10))
-percentage[THT]=$(($THT*10))
-percentage[TTH]=$(($TTH*10))
-percentage[TTT]=$(($TTT*10))
+
+tripplet_percentage[HHH]=$(($HHH*10))
+tripplet_percentage[HHT]=$(($HHT*10))
+tripplet_percentage[HTH]=$(($HTH*10))
+tripplet_percentage[HTT]=$(($HTT*10))
+tripplet_percentage[THH]=$(($THH*10))
+tripplet_percentage[THT]=$(($THT*10))
+tripplet_percentage[TTH]=$(($TTH*10))
+tripplet_percentage[TTT]=$(($TTT*10))
+
 
 echo "tripplet_dictionary:" ${tripplet_dictionary[@]}
 echo "percentage output "${percentage[@]}
 
 
+singlet=( $(printf "%s\n" "${singlet_percentage[@]}" | sort -n ))
+echo ${singlet[@]}
+doublet=( $(printf "%s\n" "${doublet_percentage[@]}" | sort -n ))
+echo ${doublet[@]}
+tripplet=( $(printf "%s\n" "${tripplet_percentage[@]}" | sort -n ))
+echo ${tripplet[@]}
 
-
-
-
+for i in ${!percentage[@]};
+do
+	if [[ ${singlet_percentage[$i]} -eq ${singlet[2]} ]]
+	then
+    		echo "winner is "${i}
+	fi
+done
 
